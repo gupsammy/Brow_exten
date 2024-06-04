@@ -4,9 +4,9 @@
     "version": "1.0",
     "description": "Opens ChatGPT and Perplexity AI in a split screen view",
     "icons": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "icons/icon16x16.png",
+      "48": "icons/icon48x48.png",
+      "128": "icons/icon128x128.png"
     },
     "action": {
       "default_icon": "icons/icon16.png"
