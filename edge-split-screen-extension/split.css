@@ -1,8 +1,0 @@
-body {
-    display: flex;
-    flex-direction: row;
-  }
-  iframe {
-    flex: 1;
-    height: 100vh;
-  }

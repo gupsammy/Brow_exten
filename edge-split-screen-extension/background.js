@@ -1,3 +1,16 @@
 chrome.action.onClicked.addListener(() => {
-  chrome.tabs.create({ url: 'data:text/html,<html><body><iframe src="https://chat.openai.com" style="width: 50%; height: 100vh; border: none;"></iframe><iframe src="https://www.perplexity.ai" style="width: 50%; height: 100vh; border: none;"></iframe></body></html>', active: true });
+  chrome.tabs.create({ url: 'https://chat.openai.com', active: true }, (tab1) => {
+    chrome.tabs.create({ url: 'https://www.perplexity.ai', active: false }, (tab2) => {
+      // Arrange tabs for split screen
+      chrome.windows.create({
+        tabId: tab1.id,
+        type: 'normal'
+      }, (window) => {
+        chrome.windows.create({
+          tabId: tab2.id,
+          type: 'normal'
+        });
+      });
+    });
+  });
 });
