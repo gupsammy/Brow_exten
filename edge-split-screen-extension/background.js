@@ -1,8 +1,3 @@
 chrome.action.onClicked.addListener(() => {
-    chrome.tabs.create({ url: 'https://chat.openai.com', active: true }, (tab1) => {
-      chrome.tabs.create({ url: 'https://www.perplexity.ai', active: false }, (tab2) => {
-        // Move tabs to split screen mode
-        // Note: Edge API for split screen might be different or not available, you might need to use a custom solution.
-      });
-    });
-  });
+  chrome.tabs.create({ url: 'data:text/html,<html><body><iframe src="https://chat.openai.com" style="width: 50%; height: 100vh; border: none;"></iframe><iframe src="https://www.perplexity.ai" style="width: 50%; height: 100vh; border: none;"></iframe></body></html>', active: true });
+});
