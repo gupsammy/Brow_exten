@@ -4,12 +4,13 @@ document.getElementById('apply').addEventListener('click', () => {
     const state = { color, opacity, active: true };
   
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId = tabs[0].id;
       chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
+        target: { tabId },
         func: applyOverlay,
         args: [color, opacity]
       });
-      chrome.runtime.sendMessage({ action: 'saveOverlayState', state });
+      chrome.runtime.sendMessage({ action: 'saveOverlayState', state, tabId });
     });
   });
   
@@ -17,11 +18,12 @@ document.getElementById('apply').addEventListener('click', () => {
     const state = { color: '#ffff00', opacity: 0.3, active: false };
   
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tabId = tabs[0].id;
       chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
+        target: { tabId },
         func: resetOverlay
       });
-      chrome.runtime.sendMessage({ action: 'saveOverlayState', state });
+      chrome.runtime.sendMessage({ action: 'saveOverlayState', state, tabId });
     });
   });
   
@@ -44,13 +46,14 @@ document.getElementById('apply').addEventListener('click', () => {
     const preset = JSON.parse(localStorage.getItem(`preset${presetNumber}`));
     if (preset) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tabId = tabs[0].id;
         chrome.scripting.executeScript({
-          target: { tabId: tabs[0].id },
+          target: { tabId },
           func: applyOverlay,
           args: [preset.color, preset.opacity]
         });
         const state = { color: preset.color, opacity: preset.opacity, active: true };
-        chrome.runtime.sendMessage({ action: 'saveOverlayState', state });
+        chrome.runtime.sendMessage({ action: 'saveOverlayState', state, tabId });
       });
     }
   }
@@ -103,10 +106,18 @@ document.getElementById('apply').addEventListener('click', () => {
     updatePreview(i, preset.color, preset.opacity);
   }
   
-  // Load the last used overlay state
-  chrome.runtime.sendMessage({ action: 'getOverlayState' }, (response) => {
+  // Load the last used overlay settings
+  chrome.runtime.sendMessage({ action: 'getLastSettings' }, (response) => {
     if (response) {
       document.getElementById('color').value = response.color;
       document.getElementById('opacity').value = response.opacity;
     }
+  });
+  
+  // Save the last used overlay settings when the popup is closed
+  window.addEventListener('unload', () => {
+    const color = document.getElementById('color').value;
+    const opacity = document.getElementById('opacity').value;
+    const settings = { color, opacity };
+    chrome.runtime.sendMessage({ action: 'saveLastSettings', settings });
   });
