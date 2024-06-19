@@ -1,8 +1,7 @@
 document.getElementById('apply').addEventListener('click', () => {
     const color = document.getElementById('color').value;
     const opacity = document.getElementById('opacity').value;
-    const state = { color, opacity, active: true };
-  
+    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tabId = tabs[0].id;
       chrome.scripting.executeScript({
@@ -10,20 +9,18 @@ document.getElementById('apply').addEventListener('click', () => {
         func: applyOverlay,
         args: [color, opacity]
       });
-      chrome.runtime.sendMessage({ action: 'saveOverlayState', state, tabId });
+      chrome.runtime.sendMessage({ action: 'saveOverlayState', state });
     });
   });
   
   document.getElementById('reset').addEventListener('click', () => {
-    const state = { color: '#ffff00', opacity: 0.3, active: false };
-  
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tabId = tabs[0].id;
       chrome.scripting.executeScript({
         target: { tabId },
         func: resetOverlay
       });
-      chrome.runtime.sendMessage({ action: 'saveOverlayState', state, tabId });
+      chrome.runtime.sendMessage({ action: 'saveOverlayState', state });
     });
   });
   
@@ -53,7 +50,7 @@ document.getElementById('apply').addEventListener('click', () => {
           args: [preset.color, preset.opacity]
         });
         const state = { color: preset.color, opacity: preset.opacity, active: true };
-        chrome.runtime.sendMessage({ action: 'saveOverlayState', state, tabId });
+        chrome.runtime.sendMessage({ action: 'saveOverlayState', state });
       });
     }
   }

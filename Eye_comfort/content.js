@@ -1,6 +1,12 @@
 // content.js
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.sendMessage({ action: 'getOverlayState' }, (response) => {
+    if (response.active) {
+      applyOverlay(response.color, response.opacity);
+    }
+  });
+  
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'applyOverlay') {
       applyOverlay(request.color, request.opacity);
     } else if (request.action === 'resetOverlay') {
