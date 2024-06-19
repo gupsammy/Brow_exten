@@ -81,10 +81,17 @@ document.getElementById('apply').addEventListener('click', () => {
     }
   }
   
-  // Initialize previews with saved presets
+  // Initialize presets with default values if not already set
+  const defaultPresets = [
+    { color: '#ff0000', opacity: 0.3 },
+    { color: '#00ff00', opacity: 0.3 },
+    { color: '#0000ff', opacity: 0.3 }
+  ];
+  
   for (let i = 1; i <= 3; i++) {
-    const preset = JSON.parse(localStorage.getItem(`preset${i}`));
-    if (preset) {
-      updatePreview(i, preset.color, preset.opacity);
+    if (!localStorage.getItem(`preset${i}`)) {
+      localStorage.setItem(`preset${i}`, JSON.stringify(defaultPresets[i - 1]));
     }
+    const preset = JSON.parse(localStorage.getItem(`preset${i}`));
+    updatePreview(i, preset.color, preset.opacity);
   }
