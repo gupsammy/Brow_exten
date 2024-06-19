@@ -32,6 +32,7 @@ document.getElementById('apply').addEventListener('click', () => {
     const opacity = document.getElementById('opacity').value;
     const preset = { color, opacity };
     localStorage.setItem(`preset${presetNumber}`, JSON.stringify(preset));
+    updatePreview(presetNumber, color, opacity);
   }
   
   function applyPreset(presetNumber) {
@@ -44,6 +45,14 @@ document.getElementById('apply').addEventListener('click', () => {
           args: [preset.color, preset.opacity]
         });
       });
+    }
+  }
+  
+  function updatePreview(presetNumber, color, opacity) {
+    const preview = document.getElementById(`preview${presetNumber}`);
+    if (preview) {
+      preview.style.backgroundColor = color;
+      preview.style.opacity = opacity;
     }
   }
   
@@ -69,5 +78,13 @@ document.getElementById('apply').addEventListener('click', () => {
     const overlay = document.getElementById('eye-shield-overlay');
     if (overlay) {
       overlay.remove();
+    }
+  }
+  
+  // Initialize previews with saved presets
+  for (let i = 1; i <= 3; i++) {
+    const preset = JSON.parse(localStorage.getItem(`preset${i}`));
+    if (preset) {
+      updatePreview(i, preset.color, preset.opacity);
     }
   }
