@@ -102,3 +102,11 @@ document.getElementById('apply').addEventListener('click', () => {
     const preset = JSON.parse(localStorage.getItem(`preset${i}`));
     updatePreview(i, preset.color, preset.opacity);
   }
+  
+  // Load the last used overlay state
+  chrome.runtime.sendMessage({ action: 'getOverlayState' }, (response) => {
+    if (response) {
+      document.getElementById('color').value = response.color;
+      document.getElementById('opacity').value = response.opacity;
+    }
+  });
