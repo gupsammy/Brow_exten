@@ -1,6 +1,8 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'applyOverlay') {
       applyOverlay(request.color, request.opacity);
+    } else if (request.action === 'resetOverlay') {
+      resetOverlay();
     }
   });
   
@@ -20,4 +22,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     overlay.style.backgroundColor = color;
     overlay.style.opacity = opacity;
+  }
+  
+  function resetOverlay() {
+    const overlay = document.getElementById('eye-shield-overlay');
+    if (overlay) {
+      overlay.remove();
+    }
   }
