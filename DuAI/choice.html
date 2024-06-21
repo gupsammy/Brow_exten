@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose AI Assistant</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    button { margin: 10px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>Choose an AI Assistant</h2>
+  <button id="chatgpt">ChatGPT</button>
+  <button id="claude">ClaudeAI</button>
+
+  <script>
+    document.getElementById('chatgpt').addEventListener('click', () => sendChoice('chatgpt'));
+    document.getElementById('claude').addEventListener('click', () => sendChoice('claude'));
+
+    function sendChoice(choice) {
+      chrome.runtime.sendMessage({action: "openAI", choice: choice});
+    }
+  </script>
+</body>
+</html>

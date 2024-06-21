@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Perplexity AI and AI Assistant Split Screen",
+    "version": "2.0",
+    "description": "Opens Perplexity AI and your choice of ChatGPT or ClaudeAI in a split screen view",
+    "icons": {
+      "16": "icons/icon_16x16.png",
+      "48": "icons/icon_48x48.png",
+      "128": "icons/icon_128x128.png"
+    },
+    "action": {
+      "default_icon": "icons/icon_16x16.png"
+    },
+    "permissions": [
+      "tabs"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "host_permissions": [
+      "https://www.perplexity.ai/",
+      "https://chat.openai.com/",
+      "https://claude.ai/"
+    ]
+  }
