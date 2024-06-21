@@ -2,47 +2,62 @@
 <html>
 <head>
   <title>Choose your SuperAI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Orbitron', sans-serif;
-      background-color: #1a1a2e;
-      color: #e0e0e0;
-      text-align: center;
-      padding: 20px;
-      width: 300px;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      color: #2c3e50;
       margin: 0;
+      padding: 0;
+      width: 300px;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .title-container {
+      background-color: #d1e7dd;
+      padding: 15px;
+      text-align: center;
+      border-bottom: 2px solid #86b7a8;
     }
     h2 {
-      margin-bottom: 20px;
+      margin: 0;
       font-weight: 700;
-      font-size: 24px;
-      text-shadow: 0 0 10px #00ffff;
+      font-size: 22px;
+      color: #2c3e50;
     }
     .button-container {
       display: flex;
       justify-content: space-around;
+      padding: 20px;
+      background-color: #e9ecef;
+      flex-grow: 1;
     }
     .ai-button {
       width: 80px;
       height: 80px;
-      margin: 10px;
-      background-color: #16213e;
+      background-color: #ffffff;
       border: none;
-      border-radius: 15px;
+      border-radius: 20px;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .ai-button:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     }
     .ai-button:active {
       transform: translateY(0);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .ai-button::before {
       content: '';
@@ -51,8 +66,8 @@
       left: 0;
       right: 0;
       height: 40%;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0));
-      border-radius: 15px 15px 100% 100%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0));
+      border-radius: 20px 20px 100% 100%;
     }
     .ai-button img {
       width: 60%;
@@ -61,10 +76,17 @@
       position: relative;
       z-index: 1;
     }
+    .footer {
+      background-color: #d1e7dd;
+      height: 20px;
+      border-top: 2px solid #86b7a8;
+    }
   </style>
 </head>
 <body>
-  <h2>Choose your SuperAI</h2>
+  <div class="title-container">
+    <h2>Choose your SuperAI</h2>
+  </div>
   <div class="button-container">
     <button id="perplexity" class="ai-button">
       <img src="icons/perplexity-logo.png" alt="Perplexity AI">
@@ -76,6 +98,7 @@
       <img src="icons/claude-logo.png" alt="Claude AI">
     </button>
   </div>
+  <div class="footer"></div>
   <script src="popup.js"></script>
 </body>
 </html>
