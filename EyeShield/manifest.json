@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "Screen Filter",
+    "version": "1.0",
+    "description": "Apply a semi-opaque filter to reduce webpage brightness",
+    "permissions": ["activeTab", "storage"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EyeShield</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      width: 300px;
+      font-family: 'Roboto', sans-serif;
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      gap: 15px;
+    }
+    header {
+      background-color: #16213e;
+      color: #87CEFA;
+      text-align: center;
+      padding: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      font-family: 'Fredoka One', cursive;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    #colorPicker {
+      width: 100%;
+      height: 100px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(233,69,96,0.5);
+      transition: all 0.3s ease;
+    }
+    #colorPicker:hover {
+      transform: scale(1.02);
+    }
+    .slider-container {
+      width: 100%;
+    }
+    #opacitySlider {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 10px;
+      border-radius: 5px;
+      background: #87CEFA;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    #opacitySlider:hover {
+      opacity: 1;
+    }
+    #opacitySlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #e94560;
+      cursor: pointer;
+    }
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #0f3460;
+      color: #e0e0e0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      font-family: 'Fredoka One', cursive;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+    button:hover {
+      background-color: #e94560;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0,0,0,0.4);
+    }
+    button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <header>EyeShield</header>
+  <div class="container">
+    <input type="color" id="colorPicker" value="#322818">
+    <div class="slider-container">
+      <input type="range" id="opacitySlider" min="0" max="100" value="30">
+      <label for="opacitySlider">Opacity: <span id="opacityValue">30%</span></label>
+    </div>
+    <div class="button-container">
+      <button id="applyBtn">Apply</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
