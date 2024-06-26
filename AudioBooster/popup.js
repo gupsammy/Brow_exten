@@ -1,6 +1,9 @@
 // popup.js
+chrome.runtime.connect({name: "popupConnect"});
+
 let currentTabId;
 let visualizer;
+
 
 // Moved outside DOMContentLoaded to be globally accessible
 function updateUI(settings) {
