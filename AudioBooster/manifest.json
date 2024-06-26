@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Audio Booster",
+    "version": "1.0",
+    "description": "Boost audio volume and enhance sound quality",
+    "permissions": [
+      "activeTab",
+      "storage"
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
+  
