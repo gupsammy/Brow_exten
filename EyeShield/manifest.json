@@ -1,16 +1,21 @@
 {
-    "manifest_version": 3,
-    "name": "Screen Filter",
-    "version": "1.0",
-    "description": "Apply a semi-opaque filter to reduce webpage brightness",
-    "permissions": ["activeTab", "storage"],
-    "action": {
-      "default_popup": "popup.html"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ]
+  "manifest_version": 3,
+  "name": "EyeShield Pro",
+  "version": "2.0",
+  "description": "Advanced eye protection for your browser",
+  "permissions": ["activeTab", "storage"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
+}

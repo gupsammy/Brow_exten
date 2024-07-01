@@ -1,79 +1,81 @@
-let colorPicker;
-let opacitySlider;
-let opacityValue;
-
-const defaultSettings = {
-  color: '#322818',
-  opacity: 30
-};
-
 document.addEventListener('DOMContentLoaded', function() {
-  colorPicker = document.getElementById('colorPicker');
-  opacitySlider = document.getElementById('opacitySlider');
-  opacityValue = document.getElementById('opacityValue');
-  
-  document.getElementById('applyBtn').addEventListener('click', applyFilter);
-  document.getElementById('resetBtn').addEventListener('click', resetFilter);
+  const colorPreview = document.getElementById('colorPreview');
+  const colorOptions = document.getElementById('colorOptions');
+  const opacitySlider = document.getElementById('opacitySlider');
+  const opacityValue = document.getElementById('opacityValue');
+  const applyButton = document.getElementById('applyButton');
+  const resetButton = document.getElementById('resetButton');
+  const modeToggle = document.getElementById('modeToggle');
 
-  colorPicker.addEventListener('input', updateColorPreview);
-  opacitySlider.addEventListener('input', updateOpacityValue);
+  const colors = [
+    '#FF5733', '#FFC300', '#DAF7A6', '#FF3333',
+    '#33FF57', '#3357FF', '#FF33F1', '#33FFF1',
+    '#00E5FF', '#7B2FF7', '#F72F93', '#2FF7B3'
+  ];
 
-  loadSettings();
-});
+  let currentColor = colors[0];
 
-function loadSettings() {
+  // Create color options
+  colors.forEach(color => {
+    const colorOption = document.createElement('div');
+    colorOption.className = 'color-option';
+    colorOption.style.backgroundColor = color;
+    colorOption.addEventListener('click', () => {
+      currentColor = color;
+      colorPreview.style.backgroundColor = color;
+    });
+    colorOptions.appendChild(colorOption);
+  });
+
+  // Initialize color preview
+  colorPreview.style.backgroundColor = currentColor;
+
   chrome.storage.sync.get(['color', 'opacity'], function(result) {
-    if (result.color && result.opacity !== undefined) {
-      colorPicker.value = result.color;
-      opacitySlider.value = result.opacity;
-    } else {
-      colorPicker.value = defaultSettings.color;
-      opacitySlider.value = defaultSettings.opacity;
+    if (result.color) {
+      currentColor = result.color;
+      colorPreview.style.backgroundColor = currentColor;
     }
-    updateOpacityValue();
-  });
-}
-
-function updateColorPreview() {
-  // The color picker itself now serves as the preview
-}
-
-function updateOpacityValue() {
-  opacityValue.textContent = opacitySlider.value + '%';
-}
-
-function applyFilter() {
-  const color = colorPicker.value;
-  const opacity = parseInt(opacitySlider.value);
-  
-  chrome.storage.sync.set({color: color, opacity: opacity}, function() {
-    console.log('Settings saved');
+    if (result.opacity) {
+      opacitySlider.value = result.opacity;
+      opacityValue.textContent = `Opacity: ${result.opacity}%`;
+    }
   });
 
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      action: "applyFilter",
-      color: color,
-      opacity: opacity / 100
+  opacitySlider.addEventListener('input', function() {
+    opacityValue.textContent = `Opacity: ${this.value}%`;
+  });
+
+  applyButton.addEventListener('click', function() {
+    const opacity = opacitySlider.value;
+    chrome.storage.sync.set({color: currentColor, opacity: opacity}, function() {
+      console.log('Settings saved');
     });
-  });
-}
-
-function resetFilter() {
-  // Set the UI to default values
-  colorPicker.value = defaultSettings.color;
-  opacitySlider.value = defaultSettings.opacity;
-  updateOpacityValue();
-  
-  // Remove the filter completely
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      action: "removeFilter"
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        action: "applyFilter",
+        color: currentColor,
+        opacity: opacity / 100
+      });
     });
   });
 
-  // Clear the stored settings
-  chrome.storage.sync.remove(['color', 'opacity'], function() {
-    console.log('Settings cleared');
+  resetButton.addEventListener('click', function() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        action: "removeFilter"
+      });
+    });
+    currentColor = colors[0];
+    colorPreview.style.backgroundColor = currentColor;
+    opacitySlider.value = 50;
+    opacityValue.textContent = "Opacity: 50%";
+    chrome.storage.sync.clear(function() {
+      console.log('Settings cleared');
+    });
   });
-}
+
+  modeToggle.addEventListener('change', function() {
+    document.body.classList.toggle('light-mode');
+    // Additional logic for changing other elements' colors
+  });
+});

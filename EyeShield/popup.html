@@ -1,108 +1,196 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>EyeShield</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EyeShield Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-color: #050810;
+      --text-color: #e0f7fa;
+      --accent-color: #00e5ff;
+      --secondary-accent: #7b2ff7;
+      --tertiary-accent: #f72f93;
+    }
     body {
       width: 300px;
-      font-family: 'Roboto', sans-serif;
-      background-color: #1a1a2e;
-      color: #e0e0e0;
       margin: 0;
-      padding: 0;
+      padding: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Rajdhani', sans-serif;
+      overflow: hidden;
     }
     .container {
+      position: relative;
+      z-index: 1;
+    }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(123, 47, 247, 0.3) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.3) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(247, 47, 147, 0.3) 0%, transparent 30%);
+      filter: blur(40px);
+      z-index: 0;
+    }
+    .header {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    }
+    .color-picker {
       display: flex;
       flex-direction: column;
-      padding: 15px;
-      gap: 15px;
+      align-items: center;
+      margin-bottom: 20px;
     }
-    header {
-      background-color: #16213e;
-      color: #87CEFA;
-      text-align: center;
-      padding: 10px;
-      font-size: 28px;
-      font-weight: bold;
-      font-family: 'Fredoka One', cursive;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    #colorPicker {
-      width: 100%;
+    .color-preview {
+      width: 100px;
       height: 100px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(233,69,96,0.5);
-      transition: all 0.3s ease;
+      border-radius: 50%;
+      border: 3px solid var(--text-color);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      margin-bottom: 10px;
     }
-    #colorPicker:hover {
-      transform: scale(1.02);
+    .color-options {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--text-color);
+      transition: transform 0.2s;
+    }
+    .color-option:hover {
+      transform: scale(1.1);
     }
     .slider-container {
-      width: 100%;
+      margin-bottom: 20px;
     }
-    #opacitySlider {
-      width: 100%;
+    .slider {
       -webkit-appearance: none;
-      height: 10px;
-      border-radius: 5px;
-      background: #87CEFA;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, var(--secondary-accent), var(--accent-color));
       outline: none;
       opacity: 0.7;
       transition: opacity 0.2s;
     }
-    #opacitySlider:hover {
+    .slider:hover {
       opacity: 1;
     }
-    #opacitySlider::-webkit-slider-thumb {
+    .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #e94560;
+      background: var(--text-color);
       cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
     }
-    button {
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
-      background-color: #0f3460;
-      color: #e0e0e0;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      font-family: 'Fredoka One', cursive;
+    .slider-value {
+      text-align: center;
       font-size: 16px;
-      text-transform: uppercase;
-    }
-    button:hover {
-      background-color: #e94560;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0,0,0,0.4);
-    }
-    button:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      margin-top: 10px;
     }
     .button-container {
       display: flex;
       justify-content: space-between;
+      gap: 10px;
+    }
+    .button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: linear-gradient(45deg, var(--secondary-accent), var(--accent-color));
+      color: var(--text-color);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 229, 255, 0.4);
+    }
+    #resetButton {
+      background: linear-gradient(45deg, var(--tertiary-accent), var(--secondary-accent));
+    }
+    .mode-switch {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 15px;
+    }
+    .mode-switch label {
+      cursor: pointer;
+      text-indent: -9999px;
+      width: 40px;
+      height: 20px;
+      background: var(--secondary-accent);
+      display: block;
+      border-radius: 100px;
+      position: relative;
+      margin-right: 10px;
+    }
+    .mode-switch label:after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 90px;
+      transition: 0.3s;
+    }
+    .mode-switch input:checked + label {
+      background: var(--accent-color);
+    }
+    .mode-switch input:checked + label:after {
+      left: calc(100% - 2px);
+      transform: translateX(-100%);
     }
   </style>
 </head>
 <body>
-  <header>EyeShield</header>
+  <div class="background"></div>
   <div class="container">
-    <input type="color" id="colorPicker" value="#322818">
+    <div class="header">EYESHIELD PRO</div>
+    <div class="color-picker">
+      <div class="color-preview" id="colorPreview"></div>
+      <div class="color-options" id="colorOptions"></div>
+    </div>
     <div class="slider-container">
-      <input type="range" id="opacitySlider" min="0" max="100" value="30">
-      <label for="opacitySlider">Opacity: <span id="opacityValue">30%</span></label>
+      <input type="range" min="0" max="100" value="50" class="slider" id="opacitySlider">
+      <div class="slider-value" id="opacityValue">Opacity: 50%</div>
     </div>
     <div class="button-container">
-      <button id="applyBtn">Apply</button>
-      <button id="resetBtn">Reset</button>
+      <button class="button" id="applyButton">Apply</button>
+      <button class="button" id="resetButton">Reset</button>
+    </div>
+    <div class="mode-switch">
+      <input type="checkbox" id="modeToggle" hidden>
+      <label for="modeToggle">Toggle mode</label>
+      <span>Toggle dark/light mode</span>
     </div>
   </div>
   <script src="popup.js"></script>
